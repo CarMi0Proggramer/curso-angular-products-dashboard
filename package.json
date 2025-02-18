@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "dev": "npm run api && npm run start",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "api": "json-server ./data/db.json --port 3000"
   },
   "private": true,
   "dependencies": {
@@ -18,7 +20,12 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@tailwindcss/postcss": "^4.0.6",
+    "flowbite": "^3.1.2",
+    "json-server": "^1.0.0-beta.3",
+    "postcss": "^8.5.2",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^4.0.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
