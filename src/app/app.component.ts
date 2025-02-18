@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { CreateProductModalComponent } from "./create-product-modal/create-product-modal.component";
 import { UpdateProductModalComponent } from "./update-product-modal/update-product-modal.component";
 import { ConfirmDeleteModalComponent } from "./confirm-delete-modal/confirm-delete-modal.component";
+import { FilterDropdownComponent } from "./filter-dropdown/filter-dropdown.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CreateProductModalComponent, UpdateProductModalComponent, ConfirmDeleteModalComponent],
+  imports: [RouterOutlet, CreateProductModalComponent, UpdateProductModalComponent, ConfirmDeleteModalComponent, FilterDropdownComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
