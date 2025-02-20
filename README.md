@@ -16,8 +16,8 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado en tu máquina:
 ### Paso 1: Clonar el repositorio
 
 ```bash
-git clone https://github.com/CarMi0Proggramer/curso-de-angular-todo-app.git
-cd curso-de-angular-todo-app
+git clone https://github.com/CarMi0Proggramer/curso-angular-products-dashboard.git
+cd curso-angular-products-dashboard
 ```
 
 ### Paso 2: Instala las dependencias
