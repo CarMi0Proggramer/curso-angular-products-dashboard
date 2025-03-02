@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../interfaces/product';
 import { ProductCategory } from '../enums/product-category';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,11 @@ export class ProductsService {
   /*
   TODO: Implementar métodos para trabajar con el servicio
   */
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = 'http://localhost:3000/products';
 
   getAll(): Observable<Product[]> {
-    throw new Error('Method not implemented.');
+    return this.http.get<Product[]>(this.baseUrl);
   }
   getById(): Observable<Product> {
     throw new Error('Method not implemented.');
