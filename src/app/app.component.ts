@@ -6,6 +6,7 @@ import { ConfirmDeleteModalComponent } from './confirm-delete-modal/confirm-dele
 import { FilterDropdownComponent } from './filter-dropdown/filter-dropdown.component';
 import { ProductsService } from './core/services/products.service';
 import { Product } from './core/interfaces/product';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { Product } from './core/interfaces/product';
     UpdateProductModalComponent,
     ConfirmDeleteModalComponent,
     FilterDropdownComponent,
+    CurrencyPipe,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
