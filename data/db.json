@@ -1,12 +1,28 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Product 1",
       "price": 100,
       "description": "Description 1",
       "brand": "Brand 1",
       "category": "Gaming/Console"
+    },
+    {
+      "id": "5732",
+      "name": "Carlos",
+      "price": 10,
+      "description": "PhonesPhonesPhonesPhonesPhonesPhonesPhonesPhones",
+      "brand": "dadsda",
+      "category": "PC"
+    },
+    {
+      "id": "58f5",
+      "name": "Carlos",
+      "price": 15,
+      "description": "PhonesPhonesPhonesPhonesPhonesPhonesPhonesPhones",
+      "brand": "dadsda",
+      "category": "PC"
     }
   ]
 }

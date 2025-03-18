@@ -41,4 +41,8 @@ export class AppComponent implements OnInit {
       }, 200);
     });
   }
+
+  onProductCreated(product: Product) {
+    this.products.update((products) => [product, ...products]);
+  }
 }

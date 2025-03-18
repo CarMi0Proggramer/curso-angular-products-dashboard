@@ -14,6 +14,7 @@
         <h3 class="text-lg font-semibold text-gray-900">Add Product</h3>
         <button
           type="button"
+          #closeModal
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
           data-modal-target="createProductModal"
           data-modal-toggle="createProductModal"
@@ -35,7 +36,7 @@
         </button>
       </div>
       <!-- Modal body -->
-      <form action="#">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
           <div>
             <label
@@ -48,9 +49,17 @@
               name="name"
               id="name"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              [class]="{
+                'focus:ring-red-500': hasErrors('name', 'required'),
+                'focus:border-red-500': hasErrors('name', 'required'),
+                'text-red-500': hasErrors('name', 'required')
+              }"
               placeholder="Type product name"
-              required=""
+              formControlName="name"
             />
+            @if (hasErrors('name', 'required')) {
+            <span class="text-red-500 text-sm">Product name is required</span>
+            }
           </div>
           <div>
             <label
@@ -64,8 +73,16 @@
               id="brand"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Product brand"
-              required=""
+              formControlName="brand"
+              [class]="{
+                'focus:ring-red-500': hasErrors('brand', 'required'),
+                'focus:border-red-500': hasErrors('brand', 'required'),
+                'text-red-500': hasErrors('brand', 'required')
+              }"
             />
+            @if (hasErrors('brand', 'required')) {
+            <span class="text-red-500 text-sm">Product brand is required</span>
+            }
           </div>
           <div>
             <label
@@ -79,8 +96,23 @@
               id="price"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="$2999"
-              required=""
+              formControlName="price"
+              [class]="{
+                'focus:ring-red-500':
+                  hasErrors('price', 'required') || hasErrors('price', 'min'),
+                'focus:border-red-500':
+                  hasErrors('price', 'required') || hasErrors('price', 'min'),
+                'text-red-500':
+                  hasErrors('price', 'required') || hasErrors('price', 'min')
+              }"
             />
+            @if (hasErrors('price', 'required')) {
+            <span class="text-red-500 text-sm">Product price is required</span>
+            } @if (hasErrors('price', 'min')) {
+            <span class="text-red-500 text-sm"
+              >Product price must be greater than 0</span
+            >
+            }
           </div>
           <div>
             <label
@@ -90,12 +122,13 @@
             ><select
               id="category"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+              formControlName="category"
             >
-              <option selected="">Select category</option>
-              <option value="TV">TV/Monitors</option>
+              <option [defaultSelected]="true">Select category</option>
+              <option value="TV/Monitors">TV/Monitors</option>
               <option value="PC">PC</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
+              <option value="Gaming/Console">Gaming/Console</option>
+              <option value="Phones">Phones</option>
             </select>
           </div>
           <div class="sm:col-span-2">
@@ -108,7 +141,28 @@
               rows="4"
               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
               placeholder="Write product description here"
+              formControlName="description"
+              [class]="{
+                'focus:ring-red-500':
+                  hasErrors('description', 'required') ||
+                  hasErrors('description', 'minlength'),
+                'focus:border-red-500':
+                  hasErrors('description', 'required') ||
+                  hasErrors('description', 'minlength'),
+                'text-red-500':
+                  hasErrors('description', 'required') ||
+                  hasErrors('description', 'minlength')
+              }"
             ></textarea>
+            @if (hasErrors('description', 'required')) {
+            <span class="text-red-500 text-sm"
+              >Product description is required</span
+            >
+            } @if (hasErrors('description', 'minlength')) {
+            <span class="text-red-500 text-sm"
+              >Product description must have at least 25 characters</span
+            >
+            }
           </div>
         </div>
         <button

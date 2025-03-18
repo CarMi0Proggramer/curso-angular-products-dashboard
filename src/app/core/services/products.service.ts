@@ -33,6 +33,6 @@ export class ProductsService {
     description: string;
     price: number;
   }): Observable<Product> {
-    throw new Error('Method not implemented.');
+    return this.http.post<Product>(this.baseUrl, data);
   }
 }

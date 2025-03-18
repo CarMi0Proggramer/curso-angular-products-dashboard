@@ -309,7 +309,9 @@
   </div>
 </section>
 <!-- End block -->
-<app-create-product-modal></app-create-product-modal>
+<app-create-product-modal
+  (productCreatedEvent)="onProductCreated($event)"
+></app-create-product-modal>
 <app-update-product-modal></app-update-product-modal>
 <app-confirm-delete-modal></app-confirm-delete-modal>
 
