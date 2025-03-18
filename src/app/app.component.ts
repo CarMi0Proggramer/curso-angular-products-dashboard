@@ -55,4 +55,10 @@ export class AppComponent implements OnInit {
       return products;
     });
   }
+
+  onProductDeleted(product: Product) {
+    this.products.update((products) =>
+      products.filter((p) => p.id !== product.id)
+    );
+  }
 }

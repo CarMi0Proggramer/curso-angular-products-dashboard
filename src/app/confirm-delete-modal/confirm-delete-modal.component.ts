@@ -1,4 +1,12 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  output,
+  viewChild,
+} from '@angular/core';
+import { Product } from '../core/interfaces/product';
+import { ProductsService } from '../core/services/products.service';
 
 @Component({
   selector: 'app-confirm-delete-modal',
@@ -6,9 +14,19 @@ import { Component } from '@angular/core';
   templateUrl: './confirm-delete-modal.component.html',
 })
 export class ConfirmDeleteModalComponent {
-  /*
-  TODO:
-  * 1- Recibir el producto actual a ser eliminado
-  * 2- Notificar cuando un producto es eliminado
-  */
+  public product?: Product;
+  public productDeletedEvent = output<Product>();
+
+  private readonly productsService = inject(ProductsService);
+  private readonly closeModalBtn =
+    viewChild.required<ElementRef<HTMLButtonElement>>('closeModal');
+
+  protected delete() {
+    if (this.product) {
+      this.productsService.delete(this.product.id).subscribe((product) => {
+        this.productDeletedEvent.emit(product);
+        this.closeModalBtn().nativeElement.click();
+      });
+    }
+  }
 }
