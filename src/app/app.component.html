@@ -157,6 +157,7 @@
                   <ul class="py-1 text-sm">
                     <li>
                       <button
+                        (click)="updateProductModal.setProduct(product)"
                         type="button"
                         data-modal-target="updateProductModal"
                         data-modal-toggle="updateProductModal"
@@ -312,7 +313,10 @@
 <app-create-product-modal
   (productCreatedEvent)="onProductCreated($event)"
 ></app-create-product-modal>
-<app-update-product-modal></app-update-product-modal>
+<app-update-product-modal
+  (productUpdatedEvent)="onProductUpdated($event)"
+  #updateProductModal
+></app-update-product-modal>
 <app-confirm-delete-modal></app-confirm-delete-modal>
 
 <!-- * ROUTER OUTLET * -->

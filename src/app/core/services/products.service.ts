@@ -24,7 +24,7 @@ export class ProductsService {
     throw new Error('Method not implemented.');
   }
   update(id: string, data: Partial<Product>): Observable<Product> {
-    throw new Error('Method not implemented.');
+    return this.http.patch<Product>(`${this.baseUrl}/${id}`, data);
   }
   create(data: {
     name: string;

@@ -45,4 +45,14 @@ export class AppComponent implements OnInit {
   onProductCreated(product: Product) {
     this.products.update((products) => [product, ...products]);
   }
+
+  onProductUpdated(updatedProduct: Product) {
+    this.products.update((products) => {
+      const index = products.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
+      products[index] = updatedProduct;
+      return products;
+    });
+  }
 }

@@ -31,7 +31,7 @@ export class CreateProductModalComponent {
     category: [''],
   });
 
-  hasErrors(fieldName: string, errorType: string) {
+  protected hasErrors(fieldName: string, errorType: string) {
     const field = this.form.get(fieldName);
 
     if (field) {

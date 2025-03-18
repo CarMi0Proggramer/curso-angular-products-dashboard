@@ -1,16 +1,66 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  output,
+  viewChild,
+} from '@angular/core';
+import { ProductsService } from '../core/services/products.service';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Product } from '../core/interfaces/product';
 
 @Component({
   selector: 'app-update-product-modal',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './update-product-modal.component.html',
 })
 export class UpdateProductModalComponent {
-  /*
-  TODO:
-  * 1- Crear el formulario para actualizar un producto
-  * 2- Actualizar los campos del formulario con los campos del producto actual
-  * 3- Emitir los valores actualizados del producto una vez cambia
-  * 4- Notificar cuando el producto siendo editado es seleccionado para eliminar
-  */
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly productsService = inject(ProductsService);
+  private readonly closeModalBtn =
+    viewChild.required<ElementRef<HTMLButtonElement>>('closeModal');
+
+  productUpdatedEvent = output<Product>();
+
+  protected form = this.formBuilder.group({
+    name: ['', Validators.required],
+    description: ['', [Validators.required, Validators.minLength(25)]],
+    brand: ['', Validators.required],
+    price: [0, [Validators.required, Validators.min(1)]],
+    category: [''],
+  });
+
+  protected product?: Product;
+
+  setProduct(product: Product) {
+    this.product = product;
+    this.loadForm();
+  }
+
+  private loadForm() {
+    this.form.patchValue({
+      ...this.product,
+    });
+  }
+
+  protected hasErrors(fieldName: string, errorType: string) {
+    const field = this.form.get(fieldName);
+
+    if (field) {
+      return field.hasError(errorType) && field.touched;
+    }
+
+    return false;
+  }
+
+  protected onSubmit() {
+    if (this.form.valid && this.product) {
+      this.productsService
+        .update(this.product.id, this.form.value as Partial<Product>)
+        .subscribe((product) => {
+          this.productUpdatedEvent.emit(product);
+          this.closeModalBtn().nativeElement.click();
+        });
+    }
+  }
 }
