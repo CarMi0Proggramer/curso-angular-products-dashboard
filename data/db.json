@@ -1,3 +1,12 @@
 {
-  "products": []
+  "products": [
+    {
+      "id": "8a5a",
+      "name": "Product 1",
+      "price": 50,
+      "description": "Product 1 description Product 1 description Product 1 description Product 1 description Product 1 description",
+      "brand": "Brand 1",
+      "category": "PC"
+    }
+  ]
 }
