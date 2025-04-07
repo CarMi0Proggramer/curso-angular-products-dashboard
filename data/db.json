@@ -7,6 +7,14 @@
       "description": "Product 1 description Product 1 description Product 1 description Product 1 description Product 1 description",
       "brand": "Brand 1",
       "category": "PC"
+    },
+    {
+      "id": "253d",
+      "name": "Product 2",
+      "price": 100,
+      "description": "dasdasdasdsadasdasdasdasdasdasdasdsadsadasdasdasdasdssaas",
+      "brand": "Brand 2",
+      "category": "PC"
     }
   ]
 }
