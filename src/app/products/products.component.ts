@@ -1,5 +1,13 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  OnChanges,
+  OnInit,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
 import { Product } from '../core/interfaces/product';
 import { ProductsService } from '../core/services/products.service';
@@ -18,20 +26,36 @@ import { UpdateProductModalComponent } from '../update-product-modal/update-prod
   ],
   templateUrl: './products.component.html',
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnChanges {
   private readonly productsService = inject(ProductsService);
   protected products = signal<Product[]>([]);
+  categories = input.required({
+    transform: (val: string | string[] | undefined) => {
+      if (typeof val == 'string') return [val];
+      else if (Array.isArray(val)) return val;
+
+      return [];
+    },
+  });
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.productsService.getAll().subscribe((products) => {
+      if (this.categories().length > 0) {
+        products = products.filter((product) =>
+          this.categories().includes(product.category)
+        );
+      }
+
+      this.products.set(products);
+    });
+  }
 
   ngOnInit(): void {
-    this.productsService.getAll().subscribe((products) => {
-      this.products.set(products);
-
-      setTimeout(() => {
-        import('flowbite').then((flowbite) => {
-          flowbite.initFlowbite();
-        });
-      }, 200);
-    });
+    setTimeout(() => {
+      import('flowbite').then((flowbite) => {
+        flowbite.initFlowbite();
+      });
+    }, 200);
   }
 
   onProductCreated(product: Product) {

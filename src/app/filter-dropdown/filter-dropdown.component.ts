@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-filter-dropdown',
@@ -6,7 +7,22 @@ import { Component } from '@angular/core';
   templateUrl: './filter-dropdown.component.html',
 })
 export class FilterDropdownComponent {
-  /*
-  TODO: Implementar método para filtrar los productos
-  */
+  categories = input.required<string[]>();
+  private readonly router = inject(Router);
+
+  onChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let categories = [...this.categories()];
+
+    if (input.checked) {
+      categories.push(input.value);
+    } else {
+      categories = categories.filter((category) => category != input.value);
+    }
+
+    this.router.navigate(['/products'], {
+      queryParams: { categories },
+      queryParamsHandling: 'merge',
+    });
+  }
 }

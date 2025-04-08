@@ -9,6 +9,8 @@
         id="pc"
         type="checkbox"
         value="PC"
+        [checked]="categories().includes('PC')"
+        (change)="onChange($event)"
         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="pc" class="ml-2 text-sm font-medium text-gray-900">PC</label>
@@ -18,6 +20,8 @@
         id="phones"
         type="checkbox"
         value="Phones"
+        [checked]="categories().includes('Phones')"
+        (change)="onChange($event)"
         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="phones" class="ml-2 text-sm font-medium text-gray-900"
@@ -29,6 +33,8 @@
         id="gaming"
         type="checkbox"
         value="Gaming/Console"
+        [checked]="categories().includes('Gaming/Console')"
+        (change)="onChange($event)"
         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="gaming" class="ml-2 text-sm font-medium text-gray-900"
@@ -40,6 +46,8 @@
         id="tv"
         type="checkbox"
         value="TV/Monitors"
+        [checked]="categories().includes('TV/Monitors')"
+        (change)="onChange($event)"
         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="tv" class="ml-2 text-sm font-medium text-gray-900"
