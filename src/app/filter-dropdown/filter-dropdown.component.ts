@@ -7,21 +7,14 @@ import { Router } from '@angular/router';
   templateUrl: './filter-dropdown.component.html',
 })
 export class FilterDropdownComponent {
-  categories = input.required<string[]>();
+  category = input<string>();
   private readonly router = inject(Router);
 
   onChange(event: Event) {
     const input = event.target as HTMLInputElement;
-    let categories = [...this.categories()];
-
-    if (input.checked) {
-      categories.push(input.value);
-    } else {
-      categories = categories.filter((category) => category != input.value);
-    }
 
     this.router.navigate(['/products'], {
-      queryParams: { categories },
+      queryParams: { category: input.value },
       queryParamsHandling: 'merge',
     });
   }

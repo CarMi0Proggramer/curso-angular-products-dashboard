@@ -4,18 +4,29 @@ import { Product } from '../interfaces/product';
 import { ProductCategory } from '../enums/product-category';
 import { HttpClient } from '@angular/common/http';
 
+interface Filters {
+  category?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  /*
-  TODO: Implementar métodos para trabajar con el servicio
-  */
   private readonly http = inject(HttpClient);
   private readonly baseUrl = 'http://localhost:3000/products';
 
-  getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl);
+  getAll(filters?: Filters): Observable<Product[]> {
+    const params: Record<string, any> = {};
+
+    if (filters) {
+      const { category } = filters;
+
+      if (category) params['category'] = category;
+    }
+
+    return this.http.get<Product[]>(this.baseUrl, {
+      params
+    });
   }
   getById(): Observable<Product> {
     throw new Error('Method not implemented.');

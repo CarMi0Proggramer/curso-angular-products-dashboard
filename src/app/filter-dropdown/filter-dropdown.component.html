@@ -7,22 +7,24 @@
     <li class="flex items-center">
       <input
         id="pc"
-        type="checkbox"
+        type="radio"
+        name="category"
         value="PC"
-        [checked]="categories().includes('PC')"
+        [checked]="category() == 'PC'"
         (change)="onChange($event)"
-        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
+        class="w-4 h-4 bg-gray-100 border-gray-300 rounded-full text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="pc" class="ml-2 text-sm font-medium text-gray-900">PC</label>
     </li>
     <li class="flex items-center">
       <input
         id="phones"
-        type="checkbox"
+        type="radio"
+        name="category"
         value="Phones"
-        [checked]="categories().includes('Phones')"
+        [checked]="category() == 'Phones'"
         (change)="onChange($event)"
-        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
+        class="w-4 h-4 bg-gray-100 border-gray-300 rounded-full text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="phones" class="ml-2 text-sm font-medium text-gray-900"
         >Phones</label
@@ -31,11 +33,12 @@
     <li class="flex items-center">
       <input
         id="gaming"
-        type="checkbox"
+        type="radio"
+        name="category"
         value="Gaming/Console"
-        [checked]="categories().includes('Gaming/Console')"
+        [checked]="category() == 'Gaming/Console'"
         (change)="onChange($event)"
-        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
+        class="w-4 h-4 bg-gray-100 border-gray-300 rounded-full text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="gaming" class="ml-2 text-sm font-medium text-gray-900"
         >Gaming/Console</label
@@ -44,11 +47,12 @@
     <li class="flex items-center">
       <input
         id="tv"
-        type="checkbox"
+        type="radio"
+        name="category"
         value="TV/Monitors"
-        [checked]="categories().includes('TV/Monitors')"
+        [checked]="category() == 'TV/Monitors'"
         (change)="onChange($event)"
-        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2"
+        class="w-4 h-4 bg-gray-100 border-gray-300 rounded-full text-primary-600 focus:ring-primary-500 focus:ring-2"
       />
       <label for="tv" class="ml-2 text-sm font-medium text-gray-900"
         >TV/Monitors</label

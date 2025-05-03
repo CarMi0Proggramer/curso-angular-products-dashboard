@@ -1,12 +1,11 @@
 import { CurrencyPipe } from '@angular/common';
 import {
   Component,
+  effect,
   inject,
   input,
-  OnChanges,
   OnInit,
   signal,
-  SimpleChanges,
 } from '@angular/core';
 import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
 import { Product } from '../core/interfaces/product';
@@ -26,27 +25,20 @@ import { UpdateProductModalComponent } from '../update-product-modal/update-prod
   ],
   templateUrl: './products.component.html',
 })
-export class ProductsComponent implements OnInit, OnChanges {
+export class ProductsComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
   protected products = signal<Product[]>([]);
-  categories = input.required({
-    transform: (val: string | string[] | undefined) => {
-      if (typeof val == 'string') return [val];
-      else if (Array.isArray(val)) return val;
+  category = input<string>();
 
-      return [];
-    },
-  });
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.productsService.getAll().subscribe((products) => {
-      if (this.categories().length > 0) {
-        products = products.filter((product) =>
-          this.categories().includes(product.category)
-        );
-      }
-
-      this.products.set(products);
+  constructor() {
+    effect(() => {
+      this.productsService
+        .getAll({
+          category: this.category(),
+        })
+        .subscribe((products) => {
+          this.products.set(products);
+        });
     });
   }
 
