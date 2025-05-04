@@ -13,6 +13,7 @@ import { ProductsService } from '../core/services/products.service';
 import { CreateProductModalComponent } from '../create-product-modal/create-product-modal.component';
 import { FilterDropdownComponent } from '../filter-dropdown/filter-dropdown.component';
 import { UpdateProductModalComponent } from '../update-product-modal/update-product-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -27,18 +28,27 @@ import { UpdateProductModalComponent } from '../update-product-modal/update-prod
 })
 export class ProductsComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly router = inject(Router);
   protected products = signal<Product[]>([]);
   category = input<string>();
+  searchTerm = input<string>();
 
   constructor() {
-    effect(() => {
-      this.productsService
-        .getAll({
-          category: this.category(),
-        })
-        .subscribe((products) => {
+    effect((onCleanup) => {
+      const filters = {
+        category: this.category(),
+        searchTerm: this.searchTerm(),
+      };
+
+      const timeoutId = setTimeout(() => {
+        this.productsService.getAll(filters).subscribe((products) => {
           this.products.set(products);
         });
+      }, 500);
+
+      onCleanup(() => {
+        clearTimeout(timeoutId);
+      });
     });
   }
 
@@ -48,6 +58,13 @@ export class ProductsComponent implements OnInit {
         flowbite.initFlowbite();
       });
     }, 200);
+  }
+
+  search(searchTerm: string) {
+    this.router.navigate(['/products'], {
+      queryParams: { searchTerm },
+      queryParamsHandling: 'merge',
+    });
   }
 
   onProductCreated(product: Product) {

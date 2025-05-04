@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 interface Filters {
   category?: string;
+  searchTerm?: string;
 }
 
 @Injectable({
@@ -19,13 +20,14 @@ export class ProductsService {
     const params: Record<string, any> = {};
 
     if (filters) {
-      const { category } = filters;
+      const { category, searchTerm } = filters;
 
       if (category) params['category'] = category;
+      if (searchTerm) params['name'] = searchTerm;
     }
 
     return this.http.get<Product[]>(this.baseUrl, {
-      params
+      params,
     });
   }
   getById(): Observable<Product> {
