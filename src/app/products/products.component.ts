@@ -7,13 +7,15 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ConfirmDeleteModalComponent } from '../confirm-delete-modal/confirm-delete-modal.component';
-import { Product } from '../core/interfaces/product';
-import { ProductsService } from '../core/services/products.service';
-import { CreateProductModalComponent } from '../create-product-modal/create-product-modal.component';
-import { FilterDropdownComponent } from '../filter-dropdown/filter-dropdown.component';
-import { UpdateProductModalComponent } from '../update-product-modal/update-product-modal.component';
+import { ProductsService } from '@core/services/products.service';
 import { Router } from '@angular/router';
+import { Product } from '@shared/interfaces/product';
+import {
+  CreateProductModalComponent,
+  UpdateProductModalComponent,
+  ConfirmDeleteModalComponent,
+  FilterDropdownComponent,
+} from './components';
 
 @Component({
   selector: 'app-products',

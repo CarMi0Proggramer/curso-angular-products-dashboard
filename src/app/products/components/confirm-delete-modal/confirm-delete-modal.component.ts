@@ -5,8 +5,8 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { Product } from '../core/interfaces/product';
-import { ProductsService } from '../core/services/products.service';
+import { ProductsService } from '@core/services/products.service';
+import { Product } from '@shared/interfaces/product';
 
 @Component({
   selector: 'app-confirm-delete-modal',

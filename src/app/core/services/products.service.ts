@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Product } from '../interfaces/product';
-import { ProductCategory } from '../enums/product-category';
 import { HttpClient } from '@angular/common/http';
+import { Product } from '@shared/interfaces/product';
+import { ProductCategory } from '@shared/enums/product-category';
 
 interface Filters {
   category?: string;

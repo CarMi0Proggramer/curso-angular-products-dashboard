@@ -5,23 +5,22 @@ import {
   output,
   viewChild,
 } from '@angular/core';
+import { ProductsService } from '@core/services/products.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProductCategory } from '../core/enums/product-category';
-import { ProductsService } from '../core/services/products.service';
-import { Product } from '../core/interfaces/product';
+import { Product } from '@shared/interfaces/product';
 
 @Component({
-  selector: 'app-create-product-modal',
+  selector: 'app-update-product-modal',
   imports: [ReactiveFormsModule],
-  templateUrl: './create-product-modal.component.html',
+  templateUrl: './update-product-modal.component.html',
 })
-export class CreateProductModalComponent {
+export class UpdateProductModalComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly productsService = inject(ProductsService);
   private readonly closeModalBtn =
     viewChild.required<ElementRef<HTMLButtonElement>>('closeModal');
 
-  productCreatedEvent = output<Product>();
+  productUpdatedEvent = output<Product>();
 
   protected form = this.formBuilder.group({
     name: ['', Validators.required],
@@ -30,6 +29,19 @@ export class CreateProductModalComponent {
     price: [0, [Validators.required, Validators.min(1)]],
     category: [''],
   });
+
+  protected product?: Product;
+
+  setProduct(product: Product) {
+    this.product = product;
+    this.loadForm();
+  }
+
+  private loadForm() {
+    this.form.patchValue({
+      ...this.product,
+    });
+  }
 
   protected hasErrors(fieldName: string, errorType: string) {
     const field = this.form.get(fieldName);
@@ -41,20 +53,12 @@ export class CreateProductModalComponent {
     return false;
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      const { name, description, brand, category, price } = this.form.value;
-
+  protected onSubmit() {
+    if (this.form.valid && this.product) {
       this.productsService
-        .create({
-          name: name!,
-          price: price!,
-          description: description!,
-          brand: brand!,
-          category: category as ProductCategory,
-        })
+        .update(this.product.id, this.form.value as Partial<Product>)
         .subscribe((product) => {
-          this.productCreatedEvent.emit(product);
+          this.productUpdatedEvent.emit(product);
           this.closeModalBtn().nativeElement.click();
         });
     }
