@@ -16,6 +16,9 @@ import {
   ConfirmDeleteModalComponent,
   FilterDropdownComponent,
 } from './components';
+import { MAX_PRODUCTS_PER_PAGE } from './constants';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { PaginationMetadata } from '@shared/interfaces/pagination-metadata';
 
 @Component({
   selector: 'app-products',
@@ -25,6 +28,7 @@ import {
     ConfirmDeleteModalComponent,
     FilterDropdownComponent,
     CurrencyPipe,
+    PaginationComponent,
   ],
   templateUrl: './products.component.html',
 })
@@ -32,20 +36,31 @@ export class ProductsComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
   private readonly router = inject(Router);
   protected products = signal<Product[]>([]);
+  protected paginationMetadata = signal<PaginationMetadata | null>(null);
+  protected perPage = MAX_PRODUCTS_PER_PAGE;
+
   category = input<string>();
   searchTerm = input<string>();
+  page = input.required({
+    transform: (val: string | undefined) => (val ? Number(val) : 1),
+  });
 
   constructor() {
     effect((onCleanup) => {
       const filters = {
         category: this.category(),
         searchTerm: this.searchTerm(),
+        page: this.page(),
+        perPage: this.perPage,
       };
 
       const timeoutId = setTimeout(() => {
-        this.productsService.getAll(filters).subscribe((products) => {
-          this.products.set(products);
-        });
+        this.productsService
+          .getAll(filters)
+          .subscribe(({ data, ...paginationMetadata }) => {
+            this.products.set(data);
+            this.paginationMetadata.set(paginationMetadata);
+          });
       }, 500);
 
       onCleanup(() => {

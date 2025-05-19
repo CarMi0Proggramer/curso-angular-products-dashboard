@@ -3,10 +3,13 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '@shared/interfaces/product';
 import { ProductCategory } from '@shared/enums/product-category';
+import { ApiResponse } from '@shared/interfaces/api-response';
 
 interface Filters {
   category?: string;
   searchTerm?: string;
+  page: number;
+  perPage: number;
 }
 
 @Injectable({
@@ -16,17 +19,17 @@ export class ProductsService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = 'http://localhost:3000/products';
 
-  getAll(filters?: Filters): Observable<Product[]> {
+  getAll(filters: Filters): Observable<ApiResponse<Product>> {
     const params: Record<string, any> = {};
 
-    if (filters) {
-      const { category, searchTerm } = filters;
+    const { category, searchTerm, page, perPage } = filters;
 
-      if (category) params['category'] = category;
-      if (searchTerm) params['name'] = searchTerm;
-    }
+    params['_page'] = page;
+    params['_per_page'] = perPage;
+    if (category) params['category'] = category;
+    if (searchTerm) params['name'] = searchTerm;
 
-    return this.http.get<Product[]>(this.baseUrl, {
+    return this.http.get<ApiResponse<Product>>(this.baseUrl, {
       params,
     });
   }
