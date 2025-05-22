@@ -36,11 +36,11 @@ export class PaginationComponent {
   });
 
   protected showingText = computed(() => {
+    const start = (this.currentPage() - 1) * this.perPage() + 1;
     const end = Math.min(
       this.currentPage() * this.perPage(),
       this.totalItems()
     );
-    const start = Math.max(1, end - this.perPage() + 1);
 
     return `${start}-${end}`;
   });
