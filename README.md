@@ -8,7 +8,7 @@ Puedes encontrar el curso completo de la creación de esta app en el siguiente [
 
 Antes de comenzar, asegúrate de tener lo siguiente instalado en tu máquina:
 
-- [Node.js](https://nodejs.org/) (v18 o superior)
+- [Node.js](https://nodejs.org/) (v20 o superior)
 - [Angular CLI](https://angular.io/cli) (se puede instalar con `npm install -g @angular/cli`)
 
 ## Guía de Instalación
