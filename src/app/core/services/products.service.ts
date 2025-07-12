@@ -33,15 +33,19 @@ export class ProductsService {
       params,
     });
   }
+
   getById(): Observable<Product> {
     throw new Error('Method not implemented.');
   }
+
   delete(id: string): Observable<Product> {
     return this.http.delete<Product>(`${this.baseUrl}/${id}`);
   }
+
   update(id: string, data: Partial<Product>): Observable<Product> {
     return this.http.patch<Product>(`${this.baseUrl}/${id}`, data);
   }
+
   create(data: {
     name: string;
     category: ProductCategory;

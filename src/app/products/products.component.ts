@@ -1,12 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
-import {
-  Component,
-  effect,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ProductsService } from '@core/services/products.service';
 import { Router } from '@angular/router';
 import { Product } from '@shared/interfaces/product';
@@ -19,6 +13,7 @@ import {
 import { MAX_PRODUCTS_PER_PAGE } from './constants';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { PaginationMetadata } from '@shared/interfaces/pagination-metadata';
+import { initFlowbite } from '@shared/helpers/init-flowbite';
 
 @Component({
   selector: 'app-products',
@@ -32,10 +27,11 @@ import { PaginationMetadata } from '@shared/interfaces/pagination-metadata';
   ],
   templateUrl: './products.component.html',
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
   private readonly productsService = inject(ProductsService);
   private readonly router = inject(Router);
   protected products = signal<Product[]>([]);
+  private readonly products$ = toObservable(this.products);
   protected paginationMetadata = signal<PaginationMetadata | null>(null);
   protected perPage = MAX_PRODUCTS_PER_PAGE;
 
@@ -67,14 +63,8 @@ export class ProductsComponent implements OnInit {
         clearTimeout(timeoutId);
       });
     });
-  }
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      import('flowbite').then((flowbite) => {
-        flowbite.initFlowbite();
-      });
-    }, 200);
+    this.products$.subscribe(() => initFlowbite());
   }
 
   search(searchTerm: string) {
