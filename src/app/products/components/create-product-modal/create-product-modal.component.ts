@@ -28,7 +28,7 @@ export class CreateProductModalComponent {
     description: ['', [Validators.required, Validators.minLength(25)]],
     brand: ['', Validators.required],
     price: [0, [Validators.required, Validators.min(1)]],
-    category: [''],
+    category: ['', Validators.required],
   });
 
   protected hasErrors(fieldName: string, errorType: string) {
@@ -56,6 +56,7 @@ export class CreateProductModalComponent {
         .subscribe((product) => {
           this.productCreatedEvent.emit(product);
           this.closeModalBtn().nativeElement.click();
+          this.form.reset({ category: '' });
         });
     }
   }

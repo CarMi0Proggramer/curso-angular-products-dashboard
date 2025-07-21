@@ -27,7 +27,7 @@ export class UpdateProductModalComponent {
     description: ['', [Validators.required, Validators.minLength(25)]],
     brand: ['', Validators.required],
     price: [0, [Validators.required, Validators.min(1)]],
-    category: [''],
+    category: ['', Validators.required],
   });
 
   protected product?: Product;
@@ -60,6 +60,7 @@ export class UpdateProductModalComponent {
         .subscribe((product) => {
           this.productUpdatedEvent.emit(product);
           this.closeModalBtn().nativeElement.click();
+          this.form.reset();
         });
     }
   }

@@ -50,14 +50,7 @@ export class ProductsComponent {
         perPage: this.perPage,
       };
 
-      const timeoutId = setTimeout(() => {
-        this.productsService
-          .getAll(filters)
-          .subscribe(({ data, ...paginationMetadata }) => {
-            this.products.set(data);
-            this.paginationMetadata.set(paginationMetadata);
-          });
-      }, 500);
+      const timeoutId = setTimeout(() => this.loadProducts(filters), 300);
 
       onCleanup(() => {
         clearTimeout(timeoutId);
@@ -75,7 +68,15 @@ export class ProductsComponent {
   }
 
   onProductCreated(product: Product) {
-    this.products.update((products) => [product, ...products]);
+    this.paginationMetadata.update((metadata) => ({
+      ...metadata!,
+      items: metadata!.items + 1,
+      pages: Math.ceil((metadata!.items + 1) / this.perPage),
+    }));
+
+    if (this.products().length < 5) {
+      this.products.update((products) => [product, ...products]);
+    }
   }
 
   onProductUpdated(updatedProduct: Product) {
@@ -89,8 +90,28 @@ export class ProductsComponent {
   }
 
   onProductDeleted(product: Product) {
-    this.products.update((products) =>
-      products.filter((p) => p.id !== product.id)
-    );
+    const page =
+      this.products().length === 1 ? Math.max(1, this.page() - 1) : this.page();
+
+    this.loadProducts({
+      page,
+      perPage: this.perPage,
+      category: this.category(),
+      searchTerm: this.searchTerm(),
+    });
+  }
+
+  private loadProducts(filters: {
+    category?: string;
+    searchTerm?: string;
+    page: number;
+    perPage: number;
+  }) {
+    this.productsService
+      .getAll(filters)
+      .subscribe(({ data, ...paginationMetadata }) => {
+        this.products.set(data);
+        this.paginationMetadata.set(paginationMetadata);
+      });
   }
 }

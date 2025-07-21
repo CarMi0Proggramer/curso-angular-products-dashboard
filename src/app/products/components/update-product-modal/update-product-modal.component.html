@@ -126,13 +126,22 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
               formControlName="category"
               [value]="product?.category"
+              [class]="{
+                'focus:ring-red-500': hasErrors('category', 'required'),
+                'focus:border-red-500': hasErrors('category', 'required'),
+                'text-red-500': hasErrors('category', 'required')
+              }"
             >
-              <option [defaultSelected]="true">Select category</option>
+              <option selected value="">Select category</option>
               <option value="TV/Monitors">TV/Monitors</option>
               <option value="PC">PC</option>
               <option value="Gaming/Console">Gaming/Console</option>
               <option value="Phones">Phones</option>
             </select>
+            @if (hasErrors('category', 'required')) {
+            <span class="text-red-500 text-sm"
+              >Product category is required</span
+            >}
           </div>
           <div class="sm:col-span-2">
             <label
